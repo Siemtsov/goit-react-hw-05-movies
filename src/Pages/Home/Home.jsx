@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import EditorList from 'components/EditorList/EditorList';
-import { fetchTrending } from 'TMBD/TMBDApi';
-import Loader from 'components/Loader/Loader';
+import EditorList from '../../components/EditorList/EditorList';
+import { fetchTrending } from '../../TMBD/TMBDApi';
+import Loader from '../../components/Loader/Loader';
 
 const Home = () => {
   const [films, setFilms] = useState([]);
@@ -21,9 +21,9 @@ const Home = () => {
         .finally(() => {
           setLoading(false);
         });
-
-      fetchTrendingFilms();
     };
+
+    fetchTrendingFilms();
   }, []);
 
   return (

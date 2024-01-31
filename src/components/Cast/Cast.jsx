@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { fetchActors } from 'TMBD/TMBDApi';
+import { fetchActors } from '../../TMBD/TMBDApi';
 import Loader from '../Loader/Loader';
 import { List, Text } from './Cast.styled';
 
@@ -20,20 +20,22 @@ const Cast = () => {
         .catch(error => {
           console.log(error);
         })
-        .finally(setLoading(false));
+        .finally(() => {
+          setLoading(false);
+        });
     };
     onActorsOfMovie();
   }, [movieId]);
 
   return (
-    <>
+    <div>
       {loading && <Loader />}
+
       <List>
         {actors.map(({ id, profile_path, original_name, name, character }) => (
           <li key={id}>
-            {' '}
             <img
-              width="200"
+              width="200px"
               src={
                 profile_path
                   ? `https://image.tmdb.org/t/p/w500${profile_path}`
@@ -46,7 +48,7 @@ const Cast = () => {
           </li>
         ))}
       </List>
-    </>
+    </div>
   );
 };
 

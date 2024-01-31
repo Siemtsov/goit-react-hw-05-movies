@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Loader from 'components/Loader/Loader';
-import EditorList from 'components/EditorList/EditorList';
+import EditorList from '../../components/EditorList/EditorList';
 import Form from 'components/Form/Form';
-import { fetchSearchByKeyword } from 'TMBD/TMBDApi';
+import { fetchSearchByKeyword } from '../../TMBD/TMBDApi';
 
 const Movies = () => {
   const [searchFilms, setSearchFilms] = useState([]);
@@ -14,7 +14,6 @@ const Movies = () => {
 
   useEffect(() => {
     const queryMovie = searchParams.get('query');
-
     if (!queryMovie) return;
 
     const searchMovies = () => {
@@ -25,31 +24,33 @@ const Movies = () => {
           setSearchFilms(searchResults);
           setNoMoviesText(searchResults.length === 0);
         })
-        .catch(error => console.log(error))
+        .catch(error => {
+          console.log(error);
+        })
         .finally(() => {
           setLoading(false);
         });
-      searchMovies(searchParams);
     };
+    searchMovies(searchParams);
   }, [searchParams]);
 
-  const queryFormParams = searchParams.get('query') || '';
+  const queryFromParams = searchParams.get('query') || '';
 
-  const handelFormSubbmit = query => {
+  const handleFormSubmit = query => {
     setSearchParams({ query });
   };
 
   return (
     <main>
-      <Form searchMovies={handelFormSubbmit}>
-        {loading && <Loader />}
-        {noMoviesText && (
-          <p>There are no movies for your request, please try again</p>
-        )}
-        {searchFilms && <EditorList films={searchFilms} />}
-      </Form>
+      <Form searchMovies={handleFormSubmit} initialQuery={queryFromParams} />
+      {loading && <Loader />}
+      {noMoviesText && (
+        <p>There is no movies with this request. Please, try again</p>
+      )}
+      {searchFilms && <EditorList films={searchFilms} />}
     </main>
   );
 };
 
 export default Movies;
+//336a33d599bf6aff6a2e497c94250ac4

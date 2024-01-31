@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
-import Loader from 'components/Loader/Loader';
+import Loader from '../Loader/Loader';
 import { Container, Header, Link } from './Layout.styled';
 
 export const Layout = () => {
@@ -9,7 +9,6 @@ export const Layout = () => {
       <Header>
         <nav>
           <Link to="/" end>
-            {' '}
             Home
           </Link>
           <Link to="/movies">Movies</Link>

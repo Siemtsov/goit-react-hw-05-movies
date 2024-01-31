@@ -22,7 +22,7 @@ const Form = ({ searchMovies }) => {
         value={query}
         onChange={handleChange}
       />
-      <Button type="submit"> Search</Button>
+      <Button type="submit">Search</Button>
     </SearchForm>
   );
 };

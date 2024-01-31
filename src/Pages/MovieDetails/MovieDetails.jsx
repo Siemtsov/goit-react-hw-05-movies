@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
-import { useParams, Lonk, Outlet, useLocation, Link } from 'react-router-dom';
-import { fetchMovieDetails } from 'TMBD/TMBDApi';
+import { useParams, Link, Outlet, useLocation } from 'react-router-dom';
+import { fetchMovieDetails } from '../../TMBD/TMBDApi';
+import Loader from '../../components/Loader/Loader';
 import {
   Container,
   List,
@@ -8,23 +9,22 @@ import {
   LinkInfo,
   Button,
 } from './MovieDetails.styled';
-import Loader from 'components/Loader/Loader';
 
 const MovieDetails = () => {
   const { movieId } = useParams();
-  const [movieInfo, setInfo] = useState(null);
+  const [movieInfo, setMovieInfo] = useState(null);
   const [loading, setLoading] = useState(false);
   const location = useLocation();
 
   const backLink = useRef(location.state?.from ?? '/');
 
   useEffect(() => {
-    const fetchFilms = () => {
+    const fetchMovieDetailsFilms = () => {
       setLoading(true);
 
-      fetchMovieDetails()
+      fetchMovieDetails(movieId)
         .then(detailMovie => {
-          setInfo(detailMovie);
+          setMovieInfo(detailMovie);
         })
         .catch(error => {
           console.log(error);
@@ -33,7 +33,8 @@ const MovieDetails = () => {
           setLoading(false);
         });
     };
-    fetchFilms();
+
+    fetchMovieDetailsFilms();
   }, [movieId]);
 
   const {
@@ -49,9 +50,10 @@ const MovieDetails = () => {
   return (
     <>
       <Link to={backLink.current}>
-        <Button type="button"> Go back</Button>
+        <Button type="button">Go back</Button>
       </Link>
       {loading && <Loader />}
+
       {movieInfo && (
         <Container>
           <img
@@ -65,7 +67,7 @@ const MovieDetails = () => {
           />
           <div>
             <h1>
-              {title}({release_date.slice(0, 4)})
+              {title} ({release_date.slice(0, 4)})
             </h1>
             <p>User score: {popularity}</p>
             <h2>Overview</h2>
