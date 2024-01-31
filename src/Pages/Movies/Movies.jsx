@@ -53,4 +53,3 @@ const Movies = () => {
 };
 
 export default Movies;
-//336a33d599bf6aff6a2e497c94250ac4
